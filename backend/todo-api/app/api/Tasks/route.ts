@@ -11,6 +11,7 @@ export async function POST(req){
         return NextResponse.json({message: 'Error', error}, {status: 500});
     }
 }
+
 export async function GET() {
     try {
       const tasks = await Task.find();
@@ -20,4 +21,4 @@ export async function GET() {
       console.log(err);
       return NextResponse.json({ message: "Error", err }, { status: 500 });
     }
-  }
+}

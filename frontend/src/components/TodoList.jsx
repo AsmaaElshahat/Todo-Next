@@ -1,22 +1,34 @@
-import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
 
 const getTodos = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/api/Tasks", {});
-  
-      if (!res.ok) {
-        throw new Error("Failed to fetch tasks");
-      }
-  
-      return res.json();
-    } catch (error) {
-      console.log("Error loading tasks: ", error);
+  try {
+    const res = await fetch("http://localhost:3000/api/Tasks", {});
+    
+    if (!res.ok) {
+      throw new Error("Failed to fetch tasks");
     }
-  };
+    
+    return res.json();
+  } catch (error) {
+    console.log("Error loading tasks: ", error);
+  }
+};
 
-const TodoList = async () => {
-    const data = await getTodos();
+
+
+const TodoList =  () => {
+
+  const [data, setData] = useState({});
+  useEffect(() => {
+    async function getData () {
+      const all_tasks = await getTodos();
+      setData(all_tasks)
+      console.log(data)
+    };
+    getData();
+  },[]);
+    
     // Make sure we have tickets needed for production build.
     if (!data?.tasks) {
         return <p>No Tasks.</p>;
@@ -42,4 +54,4 @@ const TodoList = async () => {
     )
 }
 
-export default TodoList
+export default TodoList;
